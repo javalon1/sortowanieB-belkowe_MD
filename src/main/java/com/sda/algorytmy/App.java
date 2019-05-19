@@ -32,15 +32,17 @@ public class App {
         sort(tablica);
         endTime = System.currentTimeMillis();
         totalTime = endTime - startTime;
-        System.out.println("Czas sortowania: " + totalTime);
+        System.out.println("Czas sortowania jednej petli: " + totalTime);
 
         //Sortowanie wersja pelna
-
         int loopCounter = 0;
         startTime = System.currentTimeMillis();
-        for(int i = 0; i < tablica.length; i++){
-            for (int j = 0; j < tablica.length; j++){
-                sort(tablica);
+        for(int i = 0; i < tablica.length - 1; i++){
+            int temp = 0;
+            for (int j = 0; j < tablica.length - 1; j++){
+                temp = tablica[i + 1];
+                tablica[i + 1] = tablica[i];
+                tablica[i] = temp;
                 loopCounter++;
             }
 
@@ -50,6 +52,63 @@ public class App {
         totalTime = endTime - startTime;
         System.out.println("Czas sortowania: " + totalTime);
         System.out.println("Petle: " + loopCounter);
+
+
+
+        //Sortowanie optymalizacja
+        loopCounter = 0;
+        startTime = System.currentTimeMillis();
+        for(int i = 0; i < tablica.length - 1; i++){
+            int temp = 0;
+            for (int j = 0; j < tablica.length - i - 1; j++){ //Zmniejszanie zakresu iteracji o 1 po kazdym przebiegu petli
+                if (tablica[i] > tablica[i + 1]) {
+                    temp = tablica[i + 1];
+                    tablica[i + 1] = tablica[i];
+                    tablica[i] = temp;
+
+                }
+                loopCounter++;
+            }
+
+        }
+        System.out.println(Arrays.toString(tablica));
+        endTime = System.currentTimeMillis();
+        totalTime = endTime - startTime;
+        System.out.println("Czas sortowania: " + totalTime);
+        System.out.println("Petle: " + loopCounter);
+
+
+        //Sortowanie nastepna optymalizacja
+        loopCounter = 0;
+        startTime = System.currentTimeMillis();
+
+        for(int i = 0; i < tablica.length - 1; i++){
+            boolean straznik = false;
+            int temp = 0;
+            for (int j = 0; j < tablica.length - i - 1; j++){ //Zmniejszanie zakresu iteracji o 1 po kazdym przebiegu petli
+                if (tablica[i] > tablica[i + 1]) {
+                    temp = tablica[i + 1];
+                    tablica[i + 1] = tablica[i];
+                    tablica[i] = temp;
+                    straznik = true;
+                }
+                loopCounter++;
+            }
+            if(!straznik){ // ten zapis z ! robi roznice
+                break;
+            }
+
+        }
+        System.out.println(Arrays.toString(tablica));
+        endTime = System.currentTimeMillis();
+        totalTime = endTime - startTime;
+        System.out.println("Czas sortowania: " + totalTime);
+        System.out.println("Petle: " + loopCounter);
+
+
+
+
+
 
 
 
